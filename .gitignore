@@ -1,0 +1,6 @@
+*.tfvars
+
+
+# ruby gems
+.bundle
+/vendor/
