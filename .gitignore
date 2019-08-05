@@ -4,3 +4,5 @@
 # ruby gems
 .bundle
 /vendor/
+
+.terraform/

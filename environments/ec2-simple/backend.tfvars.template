@@ -1,0 +1,4 @@
+
+bucket = "<S3 bucket name>"
+key    = "<object key for>"
+region = "ap-northeast-1"
