@@ -20,7 +20,7 @@ resource "aws_lb" "sample_alb" {
 }
 
 resource "aws_lb_target_group" "sample" {
-  name = "sample-alb-target-group"
+  name = "sample-alb-target-group-${substr(uuid(), 0, 6)}"
 
   port = 80
   protocol = "HTTP"
@@ -30,7 +30,12 @@ resource "aws_lb_target_group" "sample" {
   health_check {
     enabled = true
 
-    interval = 60
+    interval = 10
+  }
+
+  lifecycle {
+    create_before_destroy = true
+    ignore_changes = [name]
   }
 
   tags = {
