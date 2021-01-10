@@ -1,8 +1,11 @@
+# terraform
 *.tfvars
-
+terraform.tfstate*
+.terraform/
 
 # ruby gems
 .bundle
 /vendor/
 
-.terraform/
+# binaries
+*.zip
