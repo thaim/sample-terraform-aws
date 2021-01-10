@@ -16,12 +16,15 @@ resource "aws_lb" "sample_alb" {
   }
 }
 
-resource "aws_lb_target_group" "sample_alb_target_group" {
+resource "aws_lb_target_group" "sample_alb_tg_lambda" {
   name = "sample-alb-target-group"
+  target_type = "lambda"
 
-  port     = "80"
-  protocol = "HTTP"
-  vpc_id   = var.vpc_id
+  health_check {
+    enabled = true
+
+    interval = 300
+  }
 
   tags = {
     terraform = true
@@ -35,8 +38,14 @@ resource "aws_lb_listener" "sample_alb_listener" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.sample_alb_target_group.arn
+    target_group_arn = aws_lb_target_group.sample_alb_tg_lambda.arn
   }
+}
+
+resource "aws_lb_target_group_attachment" "lambda_function" {
+  target_group_arn = aws_lb_target_group.sample_alb_tg_lambda.arn
+  target_id = aws_lambda_function.sample.arn
+  depends_on = [aws_lambda_permission.with_lb]
 }
 
 
