@@ -6,7 +6,7 @@ resource "aws_lb" "sample_alb" {
     aws_security_group.allow_access_alb.id,
     aws_security_group.allow_alb_access_ecs.id
   ]
-  subnets         = [
+  subnets = [
     data.aws_subnet.public_a.id,
     data.aws_subnet.public_c.id,
     data.aws_subnet.public_d.id
@@ -22,10 +22,10 @@ resource "aws_lb" "sample_alb" {
 resource "aws_lb_target_group" "sample" {
   name = "sample-alb-target-group-${substr(uuid(), 0, 6)}"
 
-  port = 80
-  protocol = "HTTP"
+  port        = 80
+  protocol    = "HTTP"
   target_type = "ip"
-  vpc_id = var.vpc_id
+  vpc_id      = var.vpc_id
 
   health_check {
     enabled = true
@@ -35,7 +35,7 @@ resource "aws_lb_target_group" "sample" {
 
   lifecycle {
     create_before_destroy = true
-    ignore_changes = [name]
+    ignore_changes        = [name]
   }
 
   tags = {
@@ -61,16 +61,16 @@ resource "aws_security_group" "allow_access_alb" {
 
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
-    from_port = 80
-    to_port   = 80
-    protocol  = "tcp"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
   }
 
   egress {
     cidr_blocks = ["0.0.0.0/0"]
-    from_port = 0
-    to_port   = 0
-    protocol  = "-1"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
   }
 
   tags = {
