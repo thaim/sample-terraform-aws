@@ -1,0 +1,39 @@
+{
+  "desiredCount": 1,
+  "enableECSManagedTags": true,
+  "healthCheckGracePeriodSeconds": 10,
+  "launchType": "FARGATE",
+  "loadBalancers": [
+    {
+      "containerName": "nginx",
+      "containerPort": 80,
+      "targetGroupArn": "{{ tfstate `aws_lb_target_group.sample.arn` }}"
+    }
+  ],
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "assignPublicIp": "ENABLED",
+      "securityGroups": [
+        "{{ tfstate `aws_security_group.allow_alb_access_ecs.id` }}"
+      ],
+      "subnets": [
+        "{{ tfstate `data.aws_subnet.public_a.id` }}",
+        "{{ tfstate `data.aws_subnet.public_c.id` }}",
+        "{{ tfstate `data.aws_subnet.public_d.id` }}"
+      ]
+    }
+  },
+  "placementConstraints": [],
+  "placementStrategy": [],
+  "platformVersion": "1.4.0",
+  "schedulingStrategy": "REPLICA",
+  "serviceRegistries": [],
+  "deploymentConfiguration": {
+    "deploymentCircuitBreaker": {
+      "enable": false,
+      "rollback": false
+    },
+    "maximumPercent": 200,
+    "minimumHealthyPercent": 100
+  }
+}
