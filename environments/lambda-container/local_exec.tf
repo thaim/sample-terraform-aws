@@ -7,10 +7,6 @@ resource "aws_lambda_function" "sample_localexec" {
   package_type = "Image"
   image_uri    = "${aws_ecr_repository.sample_localexec.repository_url}:latest"
 
-  lifecycle {
-    ignore_changes = [image_uri]
-  }
-
   environment {
     variables = {
       MESSAGE = "sample-container-localexec"
