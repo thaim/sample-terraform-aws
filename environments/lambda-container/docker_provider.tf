@@ -3,7 +3,7 @@ resource "aws_lambda_function" "sample_dockerprovider" {
   role          = aws_iam_role.lambda.arn
 
   package_type = "Image"
-  image_uri    = "${aws_ecr_repository.sample_dockerprovider.repository_url}:latest"
+  image_uri = "${aws_ecr_repository.sample_dockerprovider.repository_url}:latest"
 
   environment {
     variables = {
