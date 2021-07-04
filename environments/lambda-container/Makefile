@@ -8,6 +8,7 @@ build: ## build docker image
 	docker build \
 		-t ${AWS_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/sample-prepared \
 		-t ${AWS_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/sample-localexec \
+		-t ${AWS_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/sample-dockerprovider \
 		app
 
 login: ## login to ECR registry
@@ -16,7 +17,9 @@ login: ## login to ECR registry
 push: ## push docker image to ECR repository
 	docker push ${AWS_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/sample-prepared:latest
 	docker push ${AWS_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/sample-localexec:latest
+	docker push ${AWS_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/sample-dockerprovider:latest
 
 lambda: ## update lambda functions
-	aws lambda update-function-code --function-name sample-container-prepared  --image-uri ${AWS_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/sample-prepared:latest
-	aws lambda update-function-code --function-name sample-container-localexec --image-uri ${AWS_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/sample-localexec:latest
+	aws lambda update-function-code --function-name sample-container-prepared       --image-uri ${AWS_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/sample-prepared:latest
+	aws lambda update-function-code --function-name sample-container-localexec      --image-uri ${AWS_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/sample-localexec:latest
+	aws lambda update-function-code --function-name sample-container-dockerprovider --image-uri ${AWS_ACCOUNT}.dkr.ecr.ap-northeast-1.amazonaws.com/sample-dockerprovider:latest
