@@ -6,7 +6,7 @@ resource "aws_lambda_function" "sample_prepared" {
 
   package_type = "Image"
   # 初期構築時はダミーイメージを指定しておく
-  image_uri    = "${data.aws_ecr_repository.prepared.repository_url}:latest"
+  image_uri = "${data.aws_ecr_repository.prepared.repository_url}:latest"
 
   lifecycle {
     ignore_changes = [image_uri]
@@ -35,5 +35,5 @@ resource "aws_ecr_repository" "sample_prepared" {
 
 # 以下は事前に手動で構築しておいたECRレジストリおよびコンテナイメージ
 data "aws_ecr_repository" "prepared" {
-  name                 = "prepared"
+  name = "prepared"
 }
