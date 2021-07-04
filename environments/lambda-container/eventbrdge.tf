@@ -1,8 +1,16 @@
-# 動作確認のため，各lambda関数を毎分呼び出す
+# CloudWatch Eventsから定期的にLambda関数を呼び出す．
+# Lambda関数は関数ごとに異なるメッセージをログ出力する．
+
 resource "aws_cloudwatch_event_rule" "every_minute" {
   name                = "every-minute"
   description         = "invoke event every minute"
   schedule_expression = "cron(* * * * ? *)"
+}
+
+resource "aws_cloudwatch_event_target" "invoke_lambda_prepared_every_minute" {
+  target_id = "InvokeLambdaPreparedEveryMinute"
+  arn       = aws_lambda_function.sample_prepared.arn
+  rule      = aws_cloudwatch_event_rule.every_minute.name
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch_invoke_lambda_prepared" {
@@ -11,6 +19,13 @@ resource "aws_lambda_permission" "allow_cloudwatch_invoke_lambda_prepared" {
   function_name = aws_lambda_function.sample_prepared.function_name
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.every_minute.arn
+}
+
+
+resource "aws_cloudwatch_event_target" "invoke_lambda_localexec_every_minute" {
+  target_id = "InvokeLambdaLocaLexecEveryMinute"
+  arn       = aws_lambda_function.sample_localexec.arn
+  rule      = aws_cloudwatch_event_rule.every_minute.name
 }
 
 resource "aws_lambda_permission" "allow_cloudwatch_invoke_lambda_localexec" {
