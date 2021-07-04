@@ -20,6 +20,10 @@ resource "aws_lambda_function" "sample_localexec" {
   depends_on = [null_resource.generate_dummy_image]
 }
 
+resource "aws_cloudwatch_log_group" "localexec" {
+  name = "/aws/lambda/${aws_lambda_function.sample_localexec.function_name}"
+}
+
 # 実際にlambda関数で実行するコンテナイメージを格納するレジストリ
 resource "aws_ecr_repository" "sample_localexec" {
   name                 = "sample-localexec"
