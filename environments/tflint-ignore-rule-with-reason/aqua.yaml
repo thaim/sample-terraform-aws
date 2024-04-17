@@ -1,0 +1,13 @@
+---
+# aqua - Declarative CLI Version Manager
+# https://aquaproj.github.io/
+# checksum:
+#   enabled: true
+#   require_checksum: true
+#   supported_envs:
+#   - all
+registries:
+- type: standard
+  ref: v4.163.0 # renovate: depName=aquaproj/aqua-registry
+packages:
+- name: terraform-linters/tflint@v0.49.0
